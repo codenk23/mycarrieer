@@ -1,0 +1,172 @@
+/* Custom CSS Overrides for Modern UI */
+:root {
+    --primary-color: #007bff; /* Bright Blue */
+    --secondary-color: #6c757d; /* Gray */
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --background-light: #f1f5f9; /* Light gray background */
+    --card-bg: #ffffff;
+    --border-color: #e0e0e0;
+}
+
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--background-light);
+}
+
+.container {
+    max-width: 900px; /* Constrain width for better layout */
+}
+
+/* Header Styling */
+.display-4 {
+    color: var(--primary-color) !important;
+}
+.header-tags {
+    margin-top: 15px;
+}
+.header-tags .badge {
+    padding: 8px 15px;
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+}
+
+/* Main Content Card (White Box) */
+.tool-content-area {
+    border-radius: 15px;
+    background-color: var(--card-bg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Soft shadow */
+}
+
+/* Tool Selection Buttons (Horizontal Bar Style) */
+.btn-tool {
+    background-color: #ffffff;
+    color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+.btn-tool:hover {
+    background-color: #f8f9fa;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.btn-tool.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+/* Upload Box Styling */
+.upload-box {
+    background-color: #fafcff; /* Very light blue background */
+    transition: background-color 0.3s;
+    border-radius: 12px !important;
+}
+.upload-box:hover {
+    background-color: #f0f7ff;
+}
+.upload-box .fs-1 {
+    color: var(--primary-color);
+}
+.border-dashed {
+    border-style: dashed !important;
+    border-color: var(--primary-color) !important;
+}
+
+/* Image Preview List */
+.image-preview-list {
+    min-height: 100px;
+    background-color: var(--background-light);
+    border-radius: 10px !important;
+}
+.image-preview-item {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--card-bg);
+    transition: transform 0.2s, border-color 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+.image-preview-item:hover {
+    transform: scale(1.05);
+}
+
+/* Order Number and Badge Styling (Critical for PDF Reordering) */
+.image-order-number {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-bottom-right-radius: 4px;
+    z-index: 10;
+}
+
+.order-setter-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.95);
+    color: var(--primary-color);
+    font-size: 2em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--primary-color);
+    cursor: pointer;
+    z-index: 20;
+    opacity: 0; 
+    transition: opacity 0.2s;
+}
+
+/* Reordering Mode Visuals */
+.image-preview-list.ordering-mode .image-preview-item {
+    cursor: pointer;
+}
+.image-preview-list.ordering-mode .image-preview-item:hover {
+    border-color: var(--primary-color);
+}
+.image-preview-list.ordering-mode .image-preview-item:hover .order-setter-badge {
+    opacity: 1;
+}
+
+/* Other Utilities */
+.remove-btn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--error-color);
+    color: white;
+    border: 2px solid var(--card-bg);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 1;
+    font-size: 12px;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0.8;
+}
+
+.tool-content.hidden {
+    display: none;
+}
