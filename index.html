@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Processing Tool | Convert, Compress & Process Images</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJ87yU4Fq2Yf+LgUuE7zL/3l5P0q2D1p1Zf5q2c3jF4m1aC/gW+WwW1W4d8yEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="style.css"> 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+</head>
+<body class="bg-light">
+
+    <div class="container my-5">
+        <header class="text-center mb-5">
+            <h1 class="display-4 text-primary fw-bold mb-3">
+                <i class="fa-solid fa-camera-retro me-2"></i>ImageProcessingTool
+            </h1>
+            <p class="lead text-secondary">
+                Transform, compress, and convert your images with our powerful online tools
+            </p>
+            <div class="header-tags">
+                <span class="badge bg-light text-primary me-2"><i class="fa-solid fa-bolt me-1"></i>Fast Processing</span>
+                <span class="badge bg-light text-success me-2"><i class="fa-solid fa-download me-1"></i>Free Download</span>
+                <span class="badge bg-light text-danger"><i class="fa-solid fa-layer-group me-1"></i>Multiple Formats</span>
+            </div>
+        </header>
+
+        <main class="tool-content-area card shadow-lg p-4 p-md-5">
+            <h2 class="h5 mb-4 text-center text-secondary fw-normal">Choose Your Tool</h2>
+
+            <div class="d-flex flex-wrap justify-content-center gap-2 mb-4 tool-selection-container" id="tool-selection-container">
+                <button class="btn btn-tool active" id="pdf-selector"><i class="fa-solid fa-file-pdf me-2"></i>Images to PDF</button>
+                <button class="btn btn-tool" id="compressor-selector"><i class="fa-solid fa-compress me-2"></i>Compress Image</button>
+                <button class="btn btn-tool" id="to-jpg-selector"><i class="fa-solid fa-image me-2"></i>Image to JPG</button>
+                <button class="btn btn-tool" id="to-jpeg-selector"><i class="fa-solid fa-image me-2"></i>Image to JPEG</button>
+                <button class="btn btn-tool" id="to-png-selector"><i class="fa-solid fa-image me-2"></i>Image to PNG</button>
+            </div>
+            
+            <hr class="my-4">
+            <div id="status-message" class="status-message alert d-none" role="alert"></div>
+
+            
+            <section id="pdf-tool-interface" class="tool-content">
+                <h3 class="h5 fw-bold text-center mb-3">Convert Images To PDF</h3>
+                <p class="text-center text-muted mb-4">
+                    Upload multiple images and convert them into a single PDF document
+                    <span class="d-block small text-primary mt-1">You can upload up to 100 images at once</span>
+                </p>
+
+                <div class="upload-box mb-4 p-5 rounded border border-2 border-primary border-dashed">
+                    <input type="file" id="pdf-file-input" multiple accept="image/jpeg, image/png">
+                    <label for="pdf-file-input" class="d-block text-center cursor-pointer">
+                        <span class="d-block fs-1 mb-2">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </span>
+                        <span class="fw-bold text-secondary">Drop images here or click to browse</span>
+                        <span class="d-block small text-muted mt-2">Supports JPG, PNG, JPEG, and other image formats</span>
+                    </label>
+                </div>
+                
+                <div class="image-preview-list d-flex flex-wrap gap-3 p-3 border rounded mb-4" id="pdf-preview-list">
+                    <div class="placeholder-preview mx-auto text-muted">No images added yet.</div>
+                </div>
+
+                <div class="tool-actions d-flex flex-column flex-md-row gap-3 pt-3 border-top justify-content-center">
+                    <input type="text" id="pdf-file-name" class="form-control flex-grow-1" placeholder="Name your PDF file (optional)">
+                    <button class="btn btn-primary" id="convert-pdf-btn" disabled><i class="fa-solid fa-file-pdf me-2"></i>Convert to PDF</button>
+                    <button class="btn btn-info" id="reorder-pdf-btn" disabled><i class="fa-solid fa-list-ol me-2"></i>Set Page Order</button>
+                    <button class="btn btn-secondary" id="clear-pdf-btn" disabled><i class="fa-solid fa-trash-can me-2"></i>Clear All</button>
+                </div>
+            </section>
+
+            <section id="compressor-tool-interface" class="tool-content hidden">
+                 <h3 class="h5 fw-bold text-center mb-3">Compress Image</h3>
+                 <div class="upload-box mb-4 p-5 rounded border border-2 border-primary border-dashed">
+                    <input type="file" id="compressor-file-input" accept="image/jpeg, image/png">
+                    <label for="compressor-file-input" class="d-block text-center cursor-pointer">
+                        <span class="d-block fs-1 mb-2"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+                        <span class="fw-bold text-secondary">Click to browse or Drag & drop ONE image</span>
+                    </label>
+                </div>
+                
+                <div id="compressor-image-display" class="image-preview-list d-flex flex-wrap gap-3 p-3 border rounded mb-4">
+                     <div class="placeholder-preview mx-auto text-muted">Image selected will appear here.</div>
+                </div>
+
+                <div class="compression-details d-flex flex-column flex-md-row justify-content-between align-items-center p-3 border rounded mb-4 bg-light">
+                    <div class="size-detail mb-3 mb-md-0">
+                        <p class="mb-1 text-primary">Original Size: <span id="original-size" class="fw-bold">-- KB</span></p>
+                        <p class="mb-0 text-success">New Size: <span id="new-size" class="fw-bold">-- KB</span></p>
+                    </div>
+                    <div class="compression-options w-100 w-md-50">
+                        <label for="quality-slider" class="form-label mb-2 fw-bold d-block text-md-end">Quality: <span id="quality-value">70%</span></label>
+                        <input type="range" id="quality-slider" class="form-range" min="10" max="100" value="70">
+                    </div>
+                </div>
+
+                <div class="tool-actions d-flex flex-column flex-md-row gap-3 pt-3 border-top justify-content-center">
+                    <input type="text" id="compressor-file-name" class="form-control" placeholder="Name your compressed file (optional)">
+                    <button class="btn btn-primary" id="compress-download-btn" disabled><i class="fa-solid fa-download me-2"></i>Compress & Download</button>
+                    <button class="btn btn-danger" id="compressor-remove-btn" disabled><i class="fa-solid fa-trash-can me-2"></i>Remove Image</button> 
+                </div>
+            </section>
+
+            <section id="converter-tool-interface" class="tool-content hidden">
+                 <h3 id="converter-title" class="h5 fw-bold text-center mb-3">Convert Image</h3>
+                 <p id="converter-info" class="text-center text-muted mb-4">Drag & drop an image to convert it to the desired format.</p>
+
+                <div class="upload-box mb-4 p-5 rounded border border-2 border-primary border-dashed">
+                    <input type="file" id="converter-file-input" accept="image/*">
+                    <label for="converter-file-input" class="d-block text-center cursor-pointer">
+                        <span class="d-block fs-1 mb-2"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+                        <span class="fw-bold text-secondary">Click to browse or Drag & drop ONE image</span>
+                    </label>
+                </div>
+
+                <div id="converter-image-display" class="image-preview-list d-flex flex-wrap gap-3 p-3 border rounded mb-4">
+                     <div class="placeholder-preview mx-auto text-muted">Image selected will appear here.</div>
+                </div>
+
+                <div class="tool-actions d-flex flex-column flex-md-row gap-3 pt-3 border-top justify-content-center">
+                    <input type="text" id="converter-file-name" class="form-control" placeholder="Name your converted file (optional)">
+                    <button class="btn btn-primary" id="convert-image-btn" disabled><i class="fa-solid fa-download me-2"></i>Convert & Download</button>
+                    <button class="btn btn-danger" id="converter-remove-btn" disabled><i class="fa-solid fa-trash-can me-2"></i>Remove Image</button> 
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center text-muted small mt-4">
+            Built with <i class="fa-solid fa-heart text-danger"></i> & Lovable
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+</html>
